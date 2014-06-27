@@ -1,0 +1,4 @@
+node_modules
+client/lib
+.tmp
+.DS_Store

@@ -1,0 +1,29 @@
+{
+  "name": "avalon-the-game",
+  "version": "0.0.0",
+  "authors": [
+    "Marco Au <marco.au.321@gmail.com>"
+  ],
+  "description": "Multiplayer social/strategy game",
+  "main": "client/index.html",
+  "keywords": [
+    "multiplayer",
+    "game"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.18",
+    "jquery": "~2.1.1",
+    "underscore": "~1.6.0",
+    "angular-ui-router": "~0.2.10",
+    "angular-cookies": "~1.2.18",
+    "angular-mocks": "~1.2.18"
+  }
+}
