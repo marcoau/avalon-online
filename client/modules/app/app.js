@@ -14,15 +14,41 @@ angular.module('app', [
       })
       .state('game', {
         templateUrl: '/modules/game/game.html',
-        controller: 'GameCtrl'
+        controller: 'GameCtrl',
+        // views: {
+        //   'header': {
+        //     templateUrl: '/modules/game/header/game.header.html',
+        //     controller: 'GameHeaderCtrl'
+        //   }
+        // }
       })
+      // .state('game.lobby', {
+      //   templateUrl: '/modules/game/lobby/game.lobby.html',
+      //   controller: 'GameLobbyCtrl'
+      // })
       .state('game.lobby', {
-        templateUrl: '/modules/game/lobby/game.lobby.html',
-        controller: 'GameLobbyCtrl'
+        views: {
+          'header': {
+            templateUrl: '/modules/game/header/game.header.html',
+            controller: 'GameHeaderCtrl'
+          },
+          'body': {
+            templateUrl: '/modules/game/lobby/game.lobby.html',
+            controller: 'GameLobbyCtrl'
+          }
+        }
       })
       .state('game.room', {
-        templateUrl: '/modules/game/room/game.room.html',
-        controller: 'GameRoomCtrl'
+        views: {
+          'header': {
+            templateUrl: '/modules/game/header/game.header.html',
+            controller: 'GameHeaderCtrl'
+          },
+          'body': {
+            templateUrl: '/modules/game/room/game.room.html',
+            controller: 'GameRoomCtrl'
+          }
+        }
       });
 
      $urlRouterProvider.otherwise('/');

@@ -28,7 +28,12 @@ angular.module('app.welcome',[])
     var getUserProfile = function(){
       FB.api('/me', function(response){
         console.log(response);
-        $rootScope.user = response;
+
+        //update user on page
+        $rootScope.$apply(function(){
+          $rootScope.user = response;          
+        });
+
       });
     };
 
@@ -41,7 +46,6 @@ angular.module('app.welcome',[])
         console.log('get Login status:');
         console.log(response);
         FBloginRedirect(response);
-        // statusChangeCallback(response);
       });
     };
 
