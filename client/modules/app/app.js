@@ -15,17 +15,7 @@ angular.module('app', [
       .state('game', {
         templateUrl: '/modules/game/game.html',
         controller: 'GameCtrl',
-        // views: {
-        //   'header': {
-        //     templateUrl: '/modules/game/header/game.header.html',
-        //     controller: 'GameHeaderCtrl'
-        //   }
-        // }
       })
-      // .state('game.lobby', {
-      //   templateUrl: '/modules/game/lobby/game.lobby.html',
-      //   controller: 'GameLobbyCtrl'
-      // })
       .state('game.lobby', {
         views: {
           'header': {
