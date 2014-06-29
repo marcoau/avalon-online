@@ -4,13 +4,16 @@
   <title>Avalon</title>
   <!-- build:css css/app.min.css -->
   <link rel='stylesheet' href='styles/index.css'>
+  <link rel='stylesheet' href='modules/game/lobby/game.lobby.css'>
   <!-- endbuild -->
 </head>
 
 <body>
   <!-- Facebook SDK -->
+  <!-- build:js js/fbsdk.js -->
   <script src='modules/app/FBsdk.js'></script>
-  
+  <!-- endbuild -->
+
   <div ng-controller='AppCtrl'>
     <button ng-click='checkAuthStatus()'>Check Auth</button>
   </div>
@@ -23,6 +26,8 @@
   <script src='lib/angular/angular.min.js'></script>
   <script src='lib/angular-ui-router/release/angular-ui-router.min.js'></script>
   <script src='lib/angular-cookies/angular-cookies.min.js'></script>
+  <script src="/socket.io/socket.io.js"></script>
+
 
   <!-- build:js js/app.min.js -->
   <script src='modules/app/app.js'></script>

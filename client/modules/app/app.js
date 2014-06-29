@@ -3,7 +3,6 @@ angular.module('app', [
   'ui.router',
   'app.welcome',
   'app.game',
-  'app.game.lobby'
   ])
   .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider){
     $stateProvider

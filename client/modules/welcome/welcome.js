@@ -20,21 +20,8 @@ angular.module('app.welcome',[])
     //    your app or not.
     var FBloginRedirect = function(response){
       if(response.status === 'connected'){
-        getUserProfile();
         $state.go('game');
       }
-    };
-
-    var getUserProfile = function(){
-      FB.api('/me', function(response){
-        console.log(response);
-
-        //update user on page
-        $rootScope.$apply(function(){
-          $rootScope.user = response;          
-        });
-
-      });
     };
 
     // This function is called when someone finishes with the Login
@@ -47,6 +34,11 @@ angular.module('app.welcome',[])
         console.log(response);
         FBloginRedirect(response);
       });
+    };
+
+    $scope.fakeLogin = function(id){
+      $rootScope.user = {id: id};
+      $state.go('game');
     };
 
   }]);
