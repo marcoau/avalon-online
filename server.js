@@ -12,7 +12,7 @@ var io = exports.io = require('socket.io')(server);
 
 //game server current storage
 //player storage: PlayerId to SocketId & SocketId to PlayerId
-var players = exports.players = {players: {}, PtoS: {}, StoP: {}};
+var players = exports.players = {players: {}, StoP: {}};
 var rooms = exports.rooms = {open: {}, closed: {}};
 
 //set default NODE_ENV to 'development'

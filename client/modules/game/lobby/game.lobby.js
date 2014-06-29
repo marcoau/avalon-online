@@ -21,6 +21,7 @@ angular.module('app.game.lobby', [])
     //Socket lobby listeners
     $rootScope.Socket.on('S_updatePlayer', function(data){
       $rootScope.user = data.player;
+      console.log('USER UPDATE:');
       console.log($rootScope.user);
     });
     $rootScope.Socket.on('S_listRooms', function(data){
@@ -39,6 +40,11 @@ angular.module('app.game.lobby', [])
     };
     $scope.joinRoom = function(roomName){
       $rootScope.Socket.emit('C_joinRoom', {
+        roomName: roomName
+      });
+    };
+    $scope.leaveRoom = function(roomName){
+      $rootScope.Socket.emit('C_leaveRoom', {
         roomName: roomName
       });
     };

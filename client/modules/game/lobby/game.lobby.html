@@ -23,5 +23,5 @@
   <p>Players: 
     <span ng-repeat='(playerName, socket) in rooms[user.room].players'>{{playerName}} </span>
   </p>
-  <button>Exit</button>
+  <button ng-click='leaveRoom(user.room)'>Exit</button>
 </div>

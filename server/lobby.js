@@ -12,8 +12,8 @@ io.on('connection', function(socket){
       //player not entered lobby yet
       players.players[playerId] = {
         id: playerId,
+        socketId: socket.id
       };
-      players.PtoS[playerId] = socket.id; 
       players.StoP[socket.id] = playerId;
     }else{
       //player already entered lobby
@@ -28,9 +28,8 @@ io.on('connection', function(socket){
   socket.on('disconnect', function(){
     console.log('socket disconnected: ' + socket.id);
     var playerId = players.StoP[socket.id];
-    
+
     delete players.players[playerId];
-    delete players.PtoS[playerId];
     delete players.StoP[socket.id];
 
     console.log('players updated:');

@@ -4,6 +4,7 @@ var rooms = require('./../server').rooms;
 
 io.on('connection', function(socket){
 
+  //list all rooms for player when he joins
   listRooms();
 
   socket.on('C_openRoom', function(data){
@@ -23,6 +24,7 @@ io.on('connection', function(socket){
     //emit new rooms status to all
     listRooms();
   });
+
   socket.on('C_joinRoom', function(data){
     var roomName = data.roomName;
     var playerId = players.StoP[socket.id];
@@ -32,6 +34,24 @@ io.on('connection', function(socket){
 
     //update player info for himself
     players.players[playerId].room = roomName;
+    updatePlayer(socket);
+    //emit new rooms status to all
+    listRooms();
+  });
+
+  socket.on('C_leaveRoom', function(data){
+    var roomName = data.roomName;
+    var room = rooms.open[roomName];
+    var playerId = players.StoP[socket.id];
+    this.leave(roomName);
+
+    if(room.players[playerId]){
+      delete room.players[playerId];
+      room.count--;
+    }
+
+    //update player info for himself
+    delete players.players[playerId].room;
     updatePlayer(socket);
     //emit new rooms status to all
     listRooms();
