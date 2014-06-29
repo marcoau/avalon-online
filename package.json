@@ -20,7 +20,8 @@
     "express-session": "^1.5.1",
     "passport": "^0.2.0",
     "connect-flash": "^0.1.1",
-    "matchdep": "^0.3.0"
+    "matchdep": "^0.3.0",
+    "passport-facebook": "^1.0.3"
   },
   "devDependencies": {
     "gulp": "^3.8.2",

@@ -1,20 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html ng-app='app'>
 <head>
   <title>Avalon</title>
-  <!-- build:css css/index.min.css -->
+  <!-- build:css css/app.min.css -->
   <link rel='stylesheet' href='styles/index.css'>
   <!-- endbuild -->
 </head>
 
 <body>
-  <h1>Avalon</h1>
+  <!-- Facebook SDK -->
+  <script src='modules/app/FBsdk.js'></script>
+  
+  <div ng-controller='AppCtrl'>
+    <button ng-click='checkAuthStatus()'>Check Auth</button>
+  </div>
+
+  <div id="status">
+  </div>
+
   <ui-view></ui-view>
 
-
-  <script src='lib/jquert/jquery.min.js'></script>
+  <!-- Bower dependencies -->
+  <script src='lib/jquery/dist/jquery.min.js'></script>
   <script src='lib/underscore/underscore.js'></script>
   <script src='lib/angular/angular.min.js'></script>
+  <script src='lib/angular-ui-router/release/angular-ui-router.min.js'></script>
+  <script src='lib/angular-cookies/angular-cookies.min.js'></script>
+
+  <!-- build:js js/app.min.js -->
+  <script src='modules/app/app.js'></script>
+  <script src='modules/welcome/welcome.js'></script>
+  <script src='modules/game/game.js'></script>
+  <script src='modules/game/lobby/game.lobby.js'></script>
+  <script src='modules/game/room/game.room.js'></script>
+  <!-- endbuild -->
 
 </body>
 </html>

@@ -1,39 +1,34 @@
 angular.module('app', [
+  'ngCookies',
   'ui.router',
-  'app.login',
+  'app.welcome',
+  'app.game',
+  'app.game.lobby'
   ])
   .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider){
     $stateProvider
-      .state('app', {
+      .state('welcome', {
         url: '/',
-        resolve: {
-          redirect: ['$location', function($location){
-            console.log('hihi');
-            $location.path('/login');
-          }]  
-        },
+        templateUrl: '/modules/welcome/welcome.html',
+        controller: 'WelcomeCtrl'
       })
-      // .state('app', {
-      //   url: '/',
-      //   views: {
-      //     'folders': {
-      //       templateUrl: '/modules/folders/folders.html',
-      //       controller: 'FoldersCtrl'
-      //       options
-      //     },
-      //     'notes': {
-      //       templateUrl: '/modules/notes/notes.html',
-      //       controller: 'NotesCtrl'
-      //     }
-      //   },
-      // })
-      .state('login', {
-        url: '/login',
-        templateUrl: '/modules/login/login.html',
-        controller: 'LoginCtrl'
+      .state('game', {
+        templateUrl: '/modules/game/game.html',
+        controller: 'GameCtrl'
+      })
+      .state('game.lobby', {
+        templateUrl: '/modules/game/lobby/game.lobby.html',
+        controller: 'GameLobbyCtrl'
+      })
+      .state('game.room', {
+        templateUrl: '/modules/game/room/game.room.html',
+        controller: 'GameRoomCtrl'
       });
 
      $urlRouterProvider.otherwise('/');
      $locationProvider.html5Mode(true);
+  }])
+
+  .controller('AppCtrl', ['$scope', '$state', function($scope, $state){
+
   }]);
-  
