@@ -1,2 +1,7 @@
-<h3>Game.Room</h3>
-<button ng-click='goToLobby()'>Go back to Lobby</button>
+<h1>Game.Room</h1>
+
+<h3>Room - {{room.name}}</h3>
+<button ng-click='leaveRoom(room.name)'>Leave Room</button>
+<p>Players: 
+  <span ng-repeat='(playerName, socket) in room.players'>{{playerName}}, </span>
+</p>

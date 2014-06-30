@@ -1,6 +1,9 @@
 var io = require('./../server').io;
 var players = require('./../server').players;
 
+var Room = require('./room');
+var Game = require('./game');
+
 io.on('connection', function(socket){
   console.log('socket connected: ' + socket.id);
 

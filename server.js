@@ -32,7 +32,7 @@ app.use(function(req, res, next){
 //Socket.IO logics - must be loaded in right order
 require('./server/room');
 require('./server/lobby');
-// require('./server/game');
+require('./server/game');
 
 var port = process.env.PORT || 8888;
 server.listen(port);

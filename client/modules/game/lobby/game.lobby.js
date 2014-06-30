@@ -24,7 +24,7 @@ angular.module('app.game.lobby', [])
       console.log('USER UPDATE:');
       console.log($rootScope.user);
     });
-    $rootScope.Socket.on('S_listRooms', function(data){
+    $rootScope.Socket.on('S_updateRooms', function(data){
       $scope.$apply(function(){
         $scope.rooms = data.rooms;
         console.log('rooms');
@@ -32,19 +32,37 @@ angular.module('app.game.lobby', [])
       });
     });
 
+    //hack: should not be here! - GAME LISTENERS
+    $rootScope.Socket.on('S_updateRoom', function(data){
+      console.log('update room!!!');
+
+      $rootScope.$apply(function(){
+        //hack: should be $scope.room
+        $rootScope.room = data.room;
+        console.log($rootScope.room);
+      });
+    });
+    $rootScope.Socket.on('S_startGame', function(){
+      console.log('S_startGame');
+    });
+    $rootScope.Socket.on('S_updateGame', function(data){
+      $rootScope.$apply(function(){
+        $rootScope.game = data.status;
+        console.log($rootScope.game);
+      });
+    });
+    //
+
     $scope.openRoom = function(roomName){
+      $state.go('game.room');
       $rootScope.Socket.emit('C_openRoom', {
         playerId: $rootScope.user.id,
         roomName: roomName
       });
     };
     $scope.joinRoom = function(roomName){
+      $state.go('game.room');
       $rootScope.Socket.emit('C_joinRoom', {
-        roomName: roomName
-      });
-    };
-    $scope.leaveRoom = function(roomName){
-      $rootScope.Socket.emit('C_leaveRoom', {
         roomName: roomName
       });
     };
