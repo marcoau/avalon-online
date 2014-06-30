@@ -11,17 +11,23 @@ angular.module('app.game', ['app.game.header', 'app.game.lobby', 'app.game.room'
       mission: false
     };
     $scope.gameTemp = {
+      //leader
       teamSize: undefined,
-      chosenTeam: undefined
+      chosenTeam: undefined,
+      //voting
+      voteTeam: undefined,
+      teamLeader: undefined,
+      vote: undefined
     };
 
-    //GAME LISTENERS
     $rootScope.Socket.on('S_updateRoom', function(data){
       $rootScope.$apply(function(){
         //hack: should be $scope.room
         $rootScope.room = data.room;
       });
     });
+
+    //GAME LISTENERS
     $rootScope.Socket.on('S_startGame', function(){
       console.log('S_startGame');
     });
@@ -36,8 +42,14 @@ angular.module('app.game', ['app.game.header', 'app.game.lobby', 'app.game.room'
       $scope.$apply(function(){
         $scope.gameStatus.leader = true;
         $scope.gameTemp.chosenTeam = [];
-        $scope.gameTemp.teamSize = data.teamSize;        
+        $scope.gameTemp.teamSize = data.teamSize;
       });
+    });
+    $rootScope.Socket.on('S_voteTeam', function(data){
+      console.log('S_voteTeam');
+      $scope.gameStatus.voting = true;
+      $scope.gameTemp.voteTeam = data.team;
+      $scope.gameTemp.teamLeader = $rootScope.game.players[data.leaderId];
     });
 
   }]);

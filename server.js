@@ -11,8 +11,8 @@ var server = require('http').Server(app);
 var io = exports.io = require('socket.io')(server);
 
 //game server current storage
-//player storage: PlayerId to SocketId & SocketId to PlayerId
-var players = exports.players = {players: {}, StoP: {}};
+//player storage: PlayerId to Socket (NOT JUST ID!) & SocketId to PlayerId
+var players = exports.players = {players: {}, PtoS: {}, StoP: {}};
 var rooms = exports.rooms = {open: {}, closed: {}};
 
 //set default NODE_ENV to 'development'

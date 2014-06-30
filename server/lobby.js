@@ -19,6 +19,7 @@ io.on('connection', function(socket){
         name: playerName,
         socketId: socket.id
       };
+      players.PtoS[playerId] = socket;
       players.StoP[socket.id] = playerId;
     }else{
       //player already entered lobby

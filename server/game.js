@@ -14,7 +14,10 @@ io.on('connection', function(socket){
 exports.startGame = function(roomName){
   var room = rooms.closed[roomName];
   var game = {
+    room: roomName,
     players: {},
+    teams: [],
+    missions: [],
     info: {
       size: room.count,
       missionNo: 0,
@@ -90,16 +93,44 @@ exports.startGame = function(roomName){
 var chooseTeam = function(game){
   var leaderNo = game.info.leaderNo;
   var leaderId = game.info.leaderPositions[leaderNo % game.info.size];
-  var leaderSocket = game.players[leaderId].socket;
+  //get leader's socket object
+  var leaderSocket = players.PtoS[leaderId];
+  var leaderSocketId = game.players[leaderId].socket;
 
   var size = teamSize[game.info.missionNo];
 
-  // io.once('C_submitTeam', function(){
+  leaderSocket.on('C_submitTeam', function(data){
+    console.log('C_submitTeam');
+    var teamMembers = data.chosenTeam;
+    var team = {
+      leader: leaderId,
+      members: teamMembers
+    }
+    game.teams.push(team);
+    //remove listener after usage
+    // leaderSocket.removeListener('C_submitTeam');
+    voteTeam(game);
+  });
 
-  // });
+  io.to(leaderSocketId).emit('S_beLeader', {teamSize: size});
+  //increment leader number
+  // game.info.leaderNo++;
+};
 
-  io.to(leaderSocket).emit('S_beLeader', {teamSize: size});
+var voteTeam = function(game){
 
+  console.log('voteTeam');
+
+  var room = game.room;
+  var leaderNo = game.info.leaderNo;
+  var leaderId = game.teams[leaderNo].leader;
+  var chosenTeam = game.teams[leaderNo].members;
+
+  io.in(room).on('C_submitVote', function(data){
+
+  });
+
+  io.to(room).emit('S_voteTeam', {leaderId: leaderId, team: chosenTeam});
 };
 
 //temporary
