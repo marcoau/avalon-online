@@ -37,7 +37,10 @@ angular.module('app.welcome',[])
     };
 
     $scope.fakeLogin = function(id){
-      $rootScope.user = {id: id};
+      $rootScope.user = {
+        id: id,
+        name: id.toUpperCase()
+      };
       $state.go('game');
     };
 

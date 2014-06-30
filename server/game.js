@@ -23,6 +23,7 @@ exports.startGame = function(roomName){
   //distribute roles
   _.each(room.players, function(socket, playerId){
     game.players[playerId] = {
+      name: players.players[playerId].name,
       socket: socket,
       role: characters.pop()
     };
@@ -34,7 +35,6 @@ exports.startGame = function(roomName){
     var gameStatus = _.cloneDeep(game);
 
     _.each(gameStatus.players, function(playr, playrId){
-      console.log(playr);
 
       if(playerId === playrId){
         //himself
@@ -83,10 +83,6 @@ var shuffle = function(num){
   var o = characters.slice(0, num);
   for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
   return o;
-};
-
-var gameStatusFilter = function(player){
-
 };
 
 /*

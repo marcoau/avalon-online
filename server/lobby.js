@@ -10,11 +10,13 @@ io.on('connection', function(socket){
   console.log(socket.handshake.address);
 
   socket.on('C_enterLobby', function(data){
-    var playerId = data.playerId;
+    var playerName = data.name;
+    var playerId = data.id;
     if(!players.players[playerId]){
       //player not entered lobby yet
       players.players[playerId] = {
         id: playerId,
+        name: playerName,
         socketId: socket.id
       };
       players.StoP[socket.id] = playerId;
