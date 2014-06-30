@@ -14,31 +14,39 @@ io.on('connection', function(socket){
 exports.startGame = function(roomName){
   var room = rooms.closed[roomName];
   var game = {
-    players: {}
+    players: {},
+    info: {
+      size: room.count,
+      missionNo: 0,
+      leaderNo: 0,
+      leaderPositions: []
+    }
   };
 
   io.in(roomName).emit('S_startGame');
-  var characters = shuffle(room.count);
+  var roles = shuffleRoles(room.count);
+  var positions = shufflePositions(room.count);
 
   //distribute roles
   _.each(room.players, function(socket, playerId){
     game.players[playerId] = {
       name: players.players[playerId].name,
       socket: socket,
-      role: characters.pop()
+      role: roles.pop(),
+      position: positions.pop()
     };
+    game.info.leaderPositions.push(playerId);
   });
 
-  var gameStatusFilter = function(playerId){
+  var gameInfoFilter = function(playerId){
     var ownRole = game.players[playerId].role;
-    //deep clone the game status with lodash
-    var gameStatus = _.cloneDeep(game);
+    //deep clone the game info with lodash
+    var gameInfo = _.cloneDeep(game);
 
-    _.each(gameStatus.players, function(playr, playrId){
-
+    _.each(gameInfo.players, function(playr, playrId){
       if(playerId === playrId){
         //himself
-        gameStatus.me = playr;
+        gameInfo.me = playr;
       }else{
         //not himself
         if(playr.role === 'percival' || playr.role === 'warrior'){
@@ -66,21 +74,47 @@ exports.startGame = function(roomName){
         }
       }
     });
-    return gameStatus;
+    return gameInfo;
   };
 
   //send out information
   _.each(room.players, function(socket, playerId){
-    var gameStatus = gameStatusFilter(playerId);
-    io.to(socket).emit('S_updateGame', {status: gameStatus});
+    var gameInfo = gameInfoFilter(playerId);
+    io.to(socket).emit('S_updateGame', {info: gameInfo});
   });
+
+  //first leader starts choosing team
+  chooseTeam(game);
+};
+
+var chooseTeam = function(game){
+  var leaderNo = game.info.leaderNo;
+  var leaderId = game.info.leaderPositions[leaderNo % game.info.size];
+  var leaderSocket = game.players[leaderId].socket;
+
+  var size = teamSize[game.info.missionNo];
+
+  // io.once('C_submitTeam', function(){
+
+  // });
+
+  io.to(leaderSocket).emit('S_beLeader', {teamSize: size});
 
 };
 
-var shuffle = function(num){
-  var characters = ['merlin', 'mordred', 'percival', 'assassin', 'warrior', 'warrior', 'villain', 'warrior', 'warrior', 'villain'];
-  // var characters = [1,2,3,4,5,5,6,5,5,6];
-  var o = characters.slice(0, num);
+//temporary
+var teamSize = [2,3,2,3,3];
+
+var shuffleRoles = function(num){
+  var roles = ['merlin', 'mordred', 'percival', 'assassin', 'warrior', 'warrior', 'villain', 'warrior', 'warrior', 'villain'];
+  // var roles = [1,2,3,4,5,5,6,5,5,6];
+  var o = roles.slice(0, num);
+  for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+  return o;
+};
+var shufflePositions = function(num){
+  var positions = [0,1,2,3,4,5,6,7,8,9];
+  var o = positions.slice(0, num);
   for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
   return o;
 };
@@ -92,5 +126,4 @@ var shuffle = function(num){
 4: 'assassin'
 5: 'warrior'
 6: 'villain'
-
 */

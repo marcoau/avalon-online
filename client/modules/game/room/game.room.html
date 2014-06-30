@@ -1,7 +1,31 @@
 <h1>Game.Room</h1>
 
 <h3>Room - {{room.name}}</h3>
-<button ng-click='leaveRoom(room.name)'>Leave Room</button>
-<p>Players: 
-  <span ng-repeat='(playerName, socket) in room.players'>{{playerName}}, </span>
-</p>
+<div ng-hide='game'>
+  <button ng-click='leaveRoom(room.name)'>Leave Room</button>
+  <p>Players: 
+    <span ng-repeat='(playerName, socket) in room.players'>{{playerName}}, </span>
+  </p>
+</div>
+<div ng-show='game'>
+  <p>{{gameStatus}}</p>
+  <div class='game-me'>
+    <h4>You</h4>
+    <p>- {{game.me.role}} -</p>
+    <button ng-show='(gameStatus.leader && gameTemp.chosenTeam.length < gameTemp.teamSize)' ng-click='chooseTeam(user.id)'>Pick</button>
+  </div>
+
+  <div class='game-players'>
+    <div class='game-player' ng-repeat='(playerId, player) in game.players' ng-hide='playerId === user.id'>
+      <h4>{{player.name}}</h4>
+      <p>- {{player.role}} -</p>
+      <button ng-show='gameStatus.leader && gameTemp.chosenTeam.length < gameTemp.teamSize' ng-click='chooseTeam(playerId)'>Pick</button>
+    </div>
+  </div>
+</div>
+
+<!-- game table -->
+<div class='table-pick-team' ng-show='gameStatus'>
+  <h4>{{gameTemp.chosenTeam}}</h4>
+  <p>Choosing Team: <span ng-repeat='playerId in gameTemp.chosenTeam' ng-click='removeFromTeam(playerId)'>{{game.players[playerId].name}}, </span></p>
+</div>

@@ -14,15 +14,28 @@ angular.module('app.game.room', [])
     //   });
     // });
 
-    // $rootScope.Socket.on('S_startGame', function(){
-    //   console.log('S_startGame');
-    // });
+
 
     $scope.leaveRoom = function(roomName){
       $rootScope.Socket.emit('C_leaveRoom', {
         roomName: roomName
       });
       $state.go('game.lobby');
+    };
+
+    $scope.chooseTeam = function(playerId){
+      console.log('old');
+      console.log($scope.gameTemp);
+      // $scope.$apply(function(){
+        $scope.gameTemp.chosenTeam.push(playerId);        
+      // });
+      console.log('new');
+      console.log($scope.gameTemp);
+    };
+
+    $scope.removeFromTeam = function(playerId){
+      var playerPos = $scope.gameTemp.chosenTeam.indexOf(playerId);
+      $scope.gameTemp.chosenTeam.splice(playerPos, 1);
     };
 
   }]);
