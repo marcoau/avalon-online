@@ -100,15 +100,16 @@ var chooseTeam = function(game){
   var size = teamSize[game.info.missionNo];
 
   leaderSocket.on('C_submitTeam', function(data){
-    console.log('C_submitTeam');
     var teamMembers = data.chosenTeam;
     var team = {
       leader: leaderId,
-      members: teamMembers
+      members: teamMembers,
+      approvedVotes: {}
     }
     game.teams.push(team);
     //remove listener after usage
-    // leaderSocket.removeListener('C_submitTeam');
+    // leaderSocket.removeListener('C_submitTeam', ...);
+
     voteTeam(game);
   });
 
@@ -119,16 +120,35 @@ var chooseTeam = function(game){
 
 var voteTeam = function(game){
 
-  console.log('voteTeam');
-
   var room = game.room;
   var leaderNo = game.info.leaderNo;
-  var leaderId = game.teams[leaderNo].leader;
-  var chosenTeam = game.teams[leaderNo].members;
+  var team = game.teams[leaderNo];
+  var leaderId = team.leader;
+  var chosenTeam = team.members;
 
-  io.in(room).on('C_submitVote', function(data){
+  //DON'T USE FOR..IN loop
+  _.each(game.players, function(player, playerId){
+    var playerSocket = players.PtoS[playerId];
+    playerSocket.on('C_submitVote', function(data){
+      var vote = data.vote;
+      team.approvedVotes[playerId] = vote;
+      //remove listener
+      //playerSocket.removeListener(...);
+
+      if(Object.keys(team.approvedVotes).length === game.info.size){
+        //all votes received
+        voteResult();
+      }
+    });
 
   });
+
+  var voteResult = function(){
+    var approvedVotesCount = _.reduce(team.approvedVotes, function(memo, vote){
+      return vote ? memo + 1 : memo;
+    }, 0);
+    console.log(approvedVotesCount);
+  };
 
   io.to(room).emit('S_voteTeam', {leaderId: leaderId, team: chosenTeam});
 };

@@ -34,11 +34,9 @@ angular.module('app.game', ['app.game.header', 'app.game.lobby', 'app.game.room'
     $rootScope.Socket.on('S_updateGame', function(data){
       $rootScope.$apply(function(){
         $rootScope.game = data.info;
-        console.log($rootScope.game);
       });
     });
     $rootScope.Socket.on('S_beLeader', function(data){
-      console.log('S_beLeader');
       $scope.$apply(function(){
         $scope.gameStatus.leader = true;
         $scope.gameTemp.chosenTeam = [];
@@ -46,10 +44,11 @@ angular.module('app.game', ['app.game.header', 'app.game.lobby', 'app.game.room'
       });
     });
     $rootScope.Socket.on('S_voteTeam', function(data){
-      console.log('S_voteTeam');
-      $scope.gameStatus.voting = true;
-      $scope.gameTemp.voteTeam = data.team;
-      $scope.gameTemp.teamLeader = $rootScope.game.players[data.leaderId];
+      $scope.$apply(function(){
+        $scope.gameStatus.voting = true;
+        $scope.gameTemp.voteTeam = data.team;
+        $scope.gameTemp.teamLeader = $rootScope.game.players[data.leaderId];        
+      });
     });
 
   }]);
