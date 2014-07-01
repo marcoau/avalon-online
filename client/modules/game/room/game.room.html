@@ -45,7 +45,7 @@
   </div>
 </div>
 
-<div class='table-vote-team' ng-show='gameStatus.mission'>
+<div class='table-join-mission' ng-show='gameStatus.mission'>
   <h4>You are on a mission!</h4>
   <div ng-show='gameTemp.decision === undefined'>
     <button ng-click='decideSuccess()'>Success</button>
@@ -58,3 +58,7 @@
   </div>
 </div>
 
+<div class='table-result' ng-hide='gameTemp.goodWins === undefined'>
+  <h4>The {{gameTemp.goodWins ? 'good' : 'evil'}} prevail!</h4>
+  <h2>YOU HAVE {{gameTemp.victory ? 'WON' : 'LOST'}}!</h2>
+</div>

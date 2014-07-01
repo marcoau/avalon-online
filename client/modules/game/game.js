@@ -19,7 +19,10 @@ angular.module('app.game', ['app.game.header', 'app.game.lobby', 'app.game.room'
       teamLeader: undefined,
       vote: undefined,
       //mission
-      decision: undefined
+      decision: undefined,
+      //result
+      goodWins: undefined,
+      victory: undefined
     };
 
     $rootScope.Socket.on('S_updateRoom', function(data){
@@ -55,6 +58,14 @@ angular.module('app.game', ['app.game.header', 'app.game.lobby', 'app.game.room'
     $rootScope.Socket.on('S_joinMission', function(){
       $scope.$apply(function(){
         $scope.gameStatus.mission = true;
+      });
+    });
+    $rootScope.Socket.on('S_resolveGame', function(data){
+      console.log('S_resolveGame');
+      $scope.$apply(function(){
+        $scope.gameTemp.goodWins = data.goodWins;
+        var iAmGood = $rootScope.game.me.isGood;
+        $scope.gameTemp.victory = (data.goodWins === iAmGood); 
       });
     });
 
