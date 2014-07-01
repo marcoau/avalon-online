@@ -43,4 +43,21 @@ angular.module('app.game.room', [])
       $scope.gameTemp.vote = undefined;
     };
 
+    //MISSION ACTIONS
+    $scope.decideSuccess = function(){
+      $scope.gameTemp.decision = true;
+    };
+    $scope.decideFail = function(){
+      $scope.gameTemp.decision = false;
+    };
+    $scope.submitDecision = function(){
+      $rootScope.Socket.emit('C_submitDecision', {decision: $scope.gameTemp.decision});
+      $scope.gameStatus.mission = false;
+
+      delete $scope.gameTemp.decision;
+    };
+    $scope.cancelDecision = function(){
+      $scope.gameTemp.decision = undefined;
+    };
+
   }]);

@@ -39,10 +39,22 @@
     <button ng-click='voteReject()'>Reject</button>
   </div>
   <div ng-hide='gameTemp.vote === undefined'>
-    <p>Your vote: {{gameTemp.vote}}</p>
+    <p>Your vote: {{gameTemp.vote ? 'Approve' : 'Reject'}}</p>
     <button ng-click='submitVote()'>Confirm</button>
     <button ng-click='cancelVote()'>Cancel</button>
   </div>
+</div>
 
+<div class='table-vote-team' ng-show='gameStatus.mission'>
+  <h4>You are on a mission!</h4>
+  <div ng-show='gameTemp.decision === undefined'>
+    <button ng-click='decideSuccess()'>Success</button>
+    <button ng-click='decideFail()'>Fail</button>
+  </div>
+  <div ng-hide='gameTemp.decision === undefined'>
+    <p>Your decision: {{gameTemp.decision ? 'Success' : 'Fail'}}</p>
+    <button ng-click='submitDecision()'>Confirm</button>
+    <button ng-click='cancelDecision()'>Cancel</button>
+  </div>
 </div>
 

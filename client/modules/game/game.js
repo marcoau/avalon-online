@@ -17,7 +17,9 @@ angular.module('app.game', ['app.game.header', 'app.game.lobby', 'app.game.room'
       //voting
       voteTeam: undefined,
       teamLeader: undefined,
-      vote: undefined
+      vote: undefined,
+      //mission
+      decision: undefined
     };
 
     $rootScope.Socket.on('S_updateRoom', function(data){
@@ -48,6 +50,11 @@ angular.module('app.game', ['app.game.header', 'app.game.lobby', 'app.game.room'
         $scope.gameStatus.voting = true;
         $scope.gameTemp.voteTeam = data.team;
         $scope.gameTemp.teamLeader = $rootScope.game.players[data.leaderId];        
+      });
+    });
+    $rootScope.Socket.on('S_joinMission', function(){
+      $scope.$apply(function(){
+        $scope.gameStatus.mission = true;
       });
     });
 
