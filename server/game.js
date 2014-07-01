@@ -107,8 +107,8 @@ var chooseTeam = function(game){
       approvedVotes: {}
     }
     game.teams.push(team);
-    //remove listener after usage
-    // leaderSocket.removeListener('C_submitTeam', ...);
+    //remove listener after being leader - can be used once only
+    delete leaderSocket._events.C_submitTeam;
 
     voteTeam(game);
   });
@@ -132,22 +132,34 @@ var voteTeam = function(game){
     playerSocket.on('C_submitVote', function(data){
       var vote = data.vote;
       team.approvedVotes[playerId] = vote;
-      //remove listener
-      //playerSocket.removeListener(...);
+
+      //remove listener after vote - can be used once only
+      delete playerSocket._events.C_submitVote;
 
       if(Object.keys(team.approvedVotes).length === game.info.size){
         //all votes received
-        voteResult();
+        votingResult(game);
       }
     });
 
   });
 
-  var voteResult = function(){
+  var votingResult = function(game){
+    var leaderNo = game.info.leaderNo;
+    var team = game.teams[leaderNo];
+    var gameSize = game.info.size;
     var approvedVotesCount = _.reduce(team.approvedVotes, function(memo, vote){
       return vote ? memo + 1 : memo;
     }, 0);
-    console.log(approvedVotesCount);
+    if(approvedVotesCount > gameSize / 2){
+      //team is approved
+    }else{
+      //team is rejected
+      team.approved = false;
+      game.info.leaderNo++;
+      //next leader chooses team
+      chooseTeam(game);
+    }
   };
 
   io.to(room).emit('S_voteTeam', {leaderId: leaderId, team: chosenTeam});
