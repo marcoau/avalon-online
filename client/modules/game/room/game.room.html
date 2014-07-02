@@ -67,4 +67,9 @@
 <div class='table-result' ng-hide='gameTemp.goodWins === undefined'>
   <h4>The {{gameTemp.goodWins ? 'good' : 'evil'}} prevail!</h4>
   <h2>YOU HAVE {{gameTemp.victory ? 'WON' : 'LOST'}}!</h2>
+  <h3>Stay in room for another game?</h3>
+  <button ng-click='stayInRoom()'>Yes</button>
+  <button ng-click='leaveRoom(room.name)'>No</button>
+
+
 </div>

@@ -74,4 +74,21 @@ angular.module('app.game.room', [])
       $scope.gameTemp.assassinTarget = undefined;
     };
 
+    //ENDGAME ACTION
+    $scope.stayInRoom = function(){
+      $rootScope.Socket.emit('C_stayInRoom');
+      delete $rootScope.game;
+
+      delete $scope.gameTemp.goodWins;
+
+    };
+    $scope.leaveRoom = function(){
+      $rootScope.Socket.emit('C_leaveRoomAfterGame');
+      delete $rootScope.game;
+      delete $rootScope.user.room;
+      $state.go('game.lobby');
+
+      delete $scope.gameTemp.goodWins;
+    };
+
   }]);

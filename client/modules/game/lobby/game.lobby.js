@@ -31,25 +31,6 @@ angular.module('app.game.lobby', [])
       });
     });
 
-    // //hack: should not be here! - GAME LISTENERS
-    // $rootScope.Socket.on('S_updateRoom', function(data){
-
-    //   $rootScope.$apply(function(){
-    //     //hack: should be $scope.room
-    //     $rootScope.room = data.room;
-    //   });
-    // });
-    // $rootScope.Socket.on('S_startGame', function(){
-    //   console.log('S_startGame');
-    // });
-    // $rootScope.Socket.on('S_updateGame', function(data){
-    //   $rootScope.$apply(function(){
-    //     $rootScope.game = data.status;
-    //     console.log($rootScope.game);
-    //   });
-    // });
-    //
-
     $scope.openRoom = function(roomName){
       $state.go('game.room');
       $rootScope.Socket.emit('C_openRoom', {
@@ -63,11 +44,7 @@ angular.module('app.game.lobby', [])
         roomName: roomName
       });
     };
-
-    $scope.goToRoom = function(){
-      $state.go('game.room');
-    };
-
+    
     $scope.quitGame = function(){
       //hack
       $location.path('/');

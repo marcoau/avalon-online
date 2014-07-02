@@ -24,9 +24,6 @@ io.on('connection', function(socket){
       //player already entered lobby
       socket.emit('S_denyFromLobby', {});
     }
-
-    console.log('players updated:');
-    console.log(players.PtoS);
   });
 
   //delete players from list

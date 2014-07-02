@@ -38,9 +38,60 @@ var assassinAction = exports.assassinAction = function(game){
 
 var resolveGame = exports.resolveGame = function(game){
   //decide victory
-  var room = game.room;
+  var roomName = game.room;
+  var room = rooms.closed[roomName];
   var goodWins = game.results.goodWins;
-  io.to(room).emit('S_resolveGame', {goodWins: goodWins});
+  io.to(roomName).emit('S_resolveGame', {goodWins: goodWins});
+
+  var stayingPlayers = [];
+  var leavingPlayers = [];
+
+  console.log('next...');
+
+  _.each(game.players, function(player, playerId){
+    var playerSocket = players.PtoS[playerId];
+    playerSocket.on('C_stayInRoom', function(){
+      console.log('C_stayInRoom');
+      stayingPlayers.push(playerId);
+      if(stayingPlayers.length === game.info.size){
+        //all players stay; start a new game; all current game data in memory lost
+        GameMain.startGame(roomName);
+      }
+
+      delete playerSocket._events.S_leaveRoomAfterGame;
+      delete playerSocket._events.S_stayInRoom;
+    });
+    playerSocket.on('C_leaveRoomAfterGame', function(){
+      //one player leaves; room open again
+      console.log('C_leaveRoomAfterGame');
+      this.leave(roomName);
+      //update room data
+      console.log(room);
+      delete room.players[playerId];
+      room.count--;
+
+      if(leavingPlayers.length === 0){
+        rooms.open[roomName] = room;
+        delete rooms.closed[roomName];
+      }
+
+      Room.killEmptyRoom(roomName);
+
+      console.log('rooms');
+      console.log(rooms);
+      console.log('room');
+      console.log(room);
+
+      //change of room member status:
+      //emit new rooms status to all
+      Room.updateRooms();
+      //emit new room status to room members
+      Room.updateRoom(roomName);
+
+      delete playerSocket._events.S_leaveRoomAfterGame;
+      delete playerSocket._events.S_stayInRoom;
+    });
+  });
 
   //save game result to database
 };

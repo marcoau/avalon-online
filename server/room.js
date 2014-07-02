@@ -51,6 +51,10 @@ io.on('connection', function(socket){
       //move room from open to closed
       rooms.closed[roomName] = room;
       delete rooms.open[roomName];
+      //emit new rooms status to all
+      updateRooms();
+      //emit new room status to room members
+      updateRoom(roomName);
 
       Game.startGame(roomName);
     }
@@ -99,18 +103,18 @@ io.on('connection', function(socket){
 
 });
 
-var updateRooms = function(){
+var updateRooms = exports.updateRooms = function(){
   io.emit('S_updateRooms', {
     rooms: rooms.open
   });
 };
-var updateRoom = function(roomName){
+var updateRoom = exports.updateRoom = function(roomName){
   io.to(roomName).emit('S_updateRoom', {
     room: rooms.open[roomName]
   });
 };
 
-var killEmptyRoom = function(roomName){
+var killEmptyRoom = exports.killEmptyRoom = function(roomName){
   if(rooms.open[roomName].count === 0){
     delete rooms.open[roomName];
   }
