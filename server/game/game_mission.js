@@ -54,8 +54,12 @@ var missionOutcome = exports.missionOutcome = function(game){
     game.info.failMissionTally++;
   }
 
-  if(Math.max(game.info.successMissionTally, game.info.failMissionTally) > 2){
-    //game ends
+  if(game.info.successMissionTally > 0){
+    //missions over; assassin kills
+    GameEnding.assassinAction(game);
+  }else if(game.info.failMissionTally > 1){
+    //game over; evil wins
+    game.results.goodWins = false;
     GameEnding.resolveGame(game);
   }else{
     //game on

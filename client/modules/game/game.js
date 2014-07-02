@@ -8,7 +8,8 @@ angular.module('app.game', ['app.game.header', 'app.game.lobby', 'app.game.room'
     $scope.gameStatus = {
       leader: false,
       voting: false,
-      mission: false
+      mission: false,
+      assassin: false
     };
     $scope.gameTemp = {
       //leader
@@ -20,6 +21,8 @@ angular.module('app.game', ['app.game.header', 'app.game.lobby', 'app.game.room'
       vote: undefined,
       //mission
       decision: undefined,
+      //assassin
+      assassinTarget: undefined,
       //result
       goodWins: undefined,
       victory: undefined
@@ -58,6 +61,12 @@ angular.module('app.game', ['app.game.header', 'app.game.lobby', 'app.game.room'
     $rootScope.Socket.on('S_joinMission', function(){
       $scope.$apply(function(){
         $scope.gameStatus.mission = true;
+      });
+    });
+    $rootScope.Socket.on('S_assassinActs', function(){
+      console.log('S_assassinActs');
+      $scope.$apply(function(){
+        $scope.gameStatus.assassin = true;
       });
     });
     $rootScope.Socket.on('S_resolveGame', function(data){

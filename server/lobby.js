@@ -6,7 +6,6 @@ var Game = require('./game');
 
 io.on('connection', function(socket){
   console.log('socket connected: ' + socket.id);
-
   console.log(socket.handshake.address);
 
   socket.on('C_enterLobby', function(data){
@@ -27,7 +26,7 @@ io.on('connection', function(socket){
     }
 
     console.log('players updated:');
-    console.log(players);
+    console.log(players.PtoS);
   });
 
   //delete players from list
@@ -36,10 +35,11 @@ io.on('connection', function(socket){
     var playerId = players.StoP[socket.id];
 
     delete players.players[playerId];
+    delete players.PtoS[playerId];
     delete players.StoP[socket.id];
 
     console.log('players updated:');
-    console.log(players);
+    console.log(players.PtoS);
   });
  
 });

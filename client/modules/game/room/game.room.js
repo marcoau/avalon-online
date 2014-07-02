@@ -60,4 +60,18 @@ angular.module('app.game.room', [])
       $scope.gameTemp.decision = undefined;
     };
 
+    //ASSASSIN ACTION
+    $scope.chooseKill = function(playerId){
+      $scope.gameTemp.assassinTarget = playerId;
+    };
+    $scope.submitKill = function(){
+      $rootScope.Socket.emit('C_submitKill', {target: $scope.gameTemp.assassinTarget});
+      $scope.gameStatus.assassin = false;
+
+      delete $scope.gameTemp.assassinTarget;
+    };
+    $scope.cancelKill = function(){
+      $scope.gameTemp.assassinTarget = undefined;
+    };
+
   }]);

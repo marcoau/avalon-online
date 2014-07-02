@@ -1,5 +1,9 @@
 body{
-  font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  background-color: green;
+}
+.app{
+  background-color: white;
 }
 .header{
   display: inline;

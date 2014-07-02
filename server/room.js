@@ -46,8 +46,8 @@ io.on('connection', function(socket){
     //emit new room status to room members
     updateRoom(roomName);
 
-    //If number of players > 2, startGame
-    if(room.count > 2){
+    //If number of players > 4, startGame
+    if(room.count > 4){
       //move room from open to closed
       rooms.closed[roomName] = room;
       delete rooms.open[roomName];

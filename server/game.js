@@ -32,7 +32,8 @@ exports.startGame = function(roomName){
       missionNo: 0,
       successMissionTally: 0,
       failMissionTally: 0
-    }
+    },
+    results: {}
   };
 
   io.in(roomName).emit('S_startGame');

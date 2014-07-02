@@ -8,7 +8,6 @@
   </p>
 </div>
 <div ng-show='game'>
-  <p>{{gameStatus}}</p>
   <div class='game-me'>
     <h4>You</h4>
     <p>- {{game.me.role}} -</p>
@@ -20,6 +19,7 @@
       <h4>{{player.name}}</h4>
       <p>- {{player.role}} -</p>
       <button ng-show='gameStatus.leader && gameTemp.chosenTeam.length < gameTemp.teamSize' ng-click='chooseTeam(playerId)'>Pick</button>
+      <button ng-show='gameStatus.assassin && player.role === "unknown"' ng-click='chooseKill(playerId)'>Pick</button>
     </div>
   </div>
 </div>
@@ -56,6 +56,12 @@
     <button ng-click='submitDecision()'>Confirm</button>
     <button ng-click='cancelDecision()'>Cancel</button>
   </div>
+</div>
+
+<div class='table-assassin' ng-show='gameTemp.assassinTarget'>
+  <h4>You are assassinating {{game.players[gameTemp.assassinTarget].name}}</h4>
+  <button ng-click='submitKill()'>Confirm</button>
+  <button ng-click='cancelKill()'>Cancel</button>
 </div>
 
 <div class='table-result' ng-hide='gameTemp.goodWins === undefined'>
