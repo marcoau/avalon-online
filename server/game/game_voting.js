@@ -18,7 +18,10 @@ var chooseTeam = exports.chooseTeam = function(game){
   var leaderSocket = players.PtoS[leaderId];
   var leaderSocketId = game.players[leaderId].socket;
 
-  var size = teamSize[game.info.missionNo];
+  var gameSize = game.info.size;
+  var missionNo = game.info.missionNo;
+
+  var size = teamSizes[gameSize][missionNo];
 
   leaderSocket.on('C_submitTeam', function(data){
     var teamMembers = data.chosenTeam;
@@ -95,4 +98,11 @@ var votingResult = exports.votingResult = function(game){
 };
 
 //temporary
-var teamSize = [2,3,2,3,3];
+var teamSizes = {
+  5: [2,3,2,3,3],
+  6: [2,3,4,3,4],
+  7: [2,3,3,4,4],
+  8: [3,4,4,5,5],
+  9: [3,4,4,5,5],
+  10: [3,4,4,5,5]
+};

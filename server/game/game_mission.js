@@ -40,11 +40,15 @@ var startMission = exports.startMission = function(game){
 var missionOutcome = exports.missionOutcome = function(game){
   var missionNo = game.info.missionNo;
   var mission = game.missions[missionNo];
+  var gameSize = game.info.size;
   var failDecisionsCount = _.reduce(mission.successDecisions, function(memo, decision){
     return decision ? memo : memo + 1;
   }, 0);
 
-  if(failDecisionsCount === 0){
+  //for games larger than 6 players and the fourth mission, 2 fails required to fail
+  var twoFailsNeeded = (gameSize > 6 && missionNo === 3); 
+
+  if(failDecisionsCount === 0 || twoFailsNeeded && failDecisionsCount <= 1){
     //mission success
     mission.success = true;
     game.info.successMissionTally++;
@@ -70,5 +74,4 @@ var missionOutcome = exports.missionOutcome = function(game){
     //next leader chooses team
     GameVoting.chooseTeam(game);    
   }
-
-}
+};
