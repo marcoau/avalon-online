@@ -53,54 +53,61 @@ exports.startGame = function(roomName){
     game.players[playerId] = playerData;
     game.info.leaderPositions.push(playerId);
   });
-
-  var gameInfoFilter = function(playerId){
-    var ownRole = game.players[playerId].role;
-    //deep clone the game info with lodash
-    var gameInfo = _.cloneDeep(game);
-
-    _.each(gameInfo.players, function(playr, playrId){
-      if(playerId === playrId){
-        //himself
-        gameInfo.me = playr;
-      }else{
-        //not himself
-        if(playr.role === 'percival' || playr.role === 'warrior'){
-          //characters not known to anyone
-          playr.role = 'unknown';
-        }else if(playr.role === 'assassin' || playr.role === 'villain'){
-          //characters known to merlin or evil
-          if(ownRole === 'merlin' || ownRole === 'mordred' || ownRole === 'assassin' || ownRole === 'villain'){
-            playr.role = 'evil';
-          }else{
-            playr.role = 'unknown';
-          }
-        }else if(playr.role === 'merlin'){
-          //character known to percival
-          if(ownRole !== 'percival'){
-            playr.role = 'unknown';
-          }
-        }else if(playr.role === 'mordred'){
-          //character known to evil
-          if(ownRole === 'assassin' || ownRole === 'villain'){
-            playr.role = 'evil';
-          }else{
-            playr.role = 'unknown';
-          }
-        }
-      }
-    });
-    return gameInfo;
-  };
-
   //send out information
-  _.each(room.players, function(socket, playerId){
-    var gameInfo = gameInfoFilter(playerId);
-    io.to(socket).emit('S_updateGame', {info: gameInfo});
-  });
-
+  updateGameInfo(game);
   //first leader starts choosing team
   GameVoting.chooseTeam(game);
+};
+
+var gameInfoFilter = function(game, playerId){
+  var ownRole = game.players[playerId].role;
+  //deep clone the game info with lodash
+  var gameInfo = _.cloneDeep(game);
+
+  _.each(gameInfo.players, function(playr, playrId){
+    if(playerId === playrId){
+      //himself
+      gameInfo.me = playr;
+    }else{
+      //not himself
+      if(playr.role === 'percival' || playr.role === 'warrior'){
+        //characters not known to anyone
+        playr.role = 'unknown';
+        delete playr.isGood;
+      }else if(playr.role === 'assassin' || playr.role === 'villain'){
+        //characters known to merlin or evil
+        if(ownRole === 'merlin' || ownRole === 'mordred' || ownRole === 'assassin' || ownRole === 'villain'){
+          playr.role = 'evil';
+        }else{
+          playr.role = 'unknown';
+          delete playr.isGood;
+        }
+      }else if(playr.role === 'merlin'){
+        //character known to percival
+        if(ownRole !== 'percival'){
+          playr.role = 'unknown';
+          delete playr.isGood;
+        }
+      }else if(playr.role === 'mordred'){
+        //character known to evil
+        if(ownRole === 'assassin' || ownRole === 'villain'){
+          playr.role = 'evil';
+        }else{
+          playr.role = 'unknown';
+          delete playr.isGood;
+        }
+      }
+    }
+  });
+  return gameInfo;
+};
+
+var updateGameInfo = exports.updateGameInfo = function(game){
+  //send out information
+  _.each(game.players, function(player, playerId){
+    var gameInfo = gameInfoFilter(game, playerId);
+    io.to(player.socket).emit('S_updateGame', {info: gameInfo});
+  });
 };
 
 exports.statusLogger = function(game){

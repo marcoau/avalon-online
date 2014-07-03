@@ -11,6 +11,7 @@ var GameMain = require('./../game');
 var GameMission = require('./game_mission');
 
 var chooseTeam = exports.chooseTeam = function(game){
+  GameMain.updateGameInfo(game);
 
   var leaderNo = game.info.leaderNo;
   var leaderId = game.info.leaderPositions[leaderNo % game.info.size];
@@ -44,6 +45,8 @@ var chooseTeam = exports.chooseTeam = function(game){
 };
 
 var voteTeam = exports.voteTeam = function(game){
+  //optional
+  GameMain.updateGameInfo(game);
 
   var room = game.room;
   var leaderNo = game.info.leaderNo;

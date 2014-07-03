@@ -11,6 +11,8 @@ var GameMain = require('./../game');
 var GameMission = require('./game_mission');
 
 var assassinAction = exports.assassinAction = function(game){
+  GameMain.updateGameInfo(game);
+
   _.each(game.players, function(player, playerId){
     if(player.role === 'assassin'){
       //assassin logic
@@ -41,6 +43,9 @@ var resolveGame = exports.resolveGame = function(game){
   var roomName = game.room;
   var room = rooms.closed[roomName];
   var goodWins = game.results.goodWins;
+
+  GameMain.updateGameInfo(game);
+
   io.to(roomName).emit('S_resolveGame', {goodWins: goodWins});
 
   var stayingPlayers = [];

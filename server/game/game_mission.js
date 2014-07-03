@@ -12,6 +12,9 @@ var GameVoting = require('./game_voting');
 var GameEnding = require('./game_ending');
 
 var startMission = exports.startMission = function(game){
+  //optional
+  GameMain.updateGameInfo(game);
+
   var leaderNo = game.info.leaderNo;
   var team = game.teams[leaderNo];
   var mission = {
