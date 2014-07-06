@@ -50,7 +50,7 @@ module.exports = function(grunt){
         expand: true,
         cwd: 'client/',
         //copying bower components to dist
-        src: ['**/*.html', 'lib/**/*.*', 'favicon.ico'],
+        src: ['**/*.html', 'lib/**/*.*', 'images/**/*.*', 'favicon.ico'],
         dest: '../dist/client'
       },
       options: {
