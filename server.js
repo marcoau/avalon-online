@@ -37,3 +37,12 @@ require('./server/game');
 var port = process.env.PORT || 8888;
 server.listen(port);
 console.log('Avalon server listening at ' + port);
+
+var lobbyLogger = function(){
+  console.log('players:');
+  console.log(players);
+  console.log('rooms:');
+  console.log(rooms);
+};
+
+setInterval(lobbyLogger, 5000);

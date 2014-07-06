@@ -1,0 +1,25 @@
+/* CSS template{
+  [arrangement, position],[sizing, margin],[border/padding, internal format]
+}
+margin shorthand: top right bottom left;
+*/
+
+.welcome-name{
+  text-align: center;
+
+  margin: 1em auto 0 auto;
+
+  font-size: 6em;
+  color: rgb(180,150,100);
+}
+.welcome-tagline{
+  text-align: center;
+
+  font-size: 2em;
+  color: rgb(100,150,180);
+}
+.fb-login-button.fb_iframe_widget{
+  display: block;
+
+  text-align: center;
+}

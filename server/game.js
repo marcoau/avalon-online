@@ -41,10 +41,10 @@ exports.startGame = function(roomName){
   var positions = shufflePositions(room.count);
 
   //distribute roles
-  _.each(room.players, function(socket, playerId){
+  _.each(room.players, function(player, playerId){
     var playerData = {
       name: players.players[playerId].name,
-      socket: socket,
+      socket: player.socket,
       role: roles.pop(),
       position: positions.pop()
     };

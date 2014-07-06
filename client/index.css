@@ -1,0 +1,49 @@
+/* CSS template{
+  [arrangement, position],[sizing, margin],[border/padding, internal format]
+}
+margin shorthand: top right bottom left;
+*/
+body{
+  background-color: black;
+  background-image: url('/../images/bg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+body, button, input{
+  font-family: 'Georgia', 'Times New Roman', serif;
+}
+button{
+  background-color: rgb(80,60,20);
+
+  border: 0;
+  padding: 5px;
+
+  font-size: 1em;
+  color: white;
+}
+input{
+  background-color: white;
+
+  border: 0;
+  padding: 5px;
+
+  font-size: 1em;
+}
+.app{
+  overflow: auto;
+  height: 650px;
+
+  /*black bg color as backup*/
+  background-color: black;
+  background-image: url('/images/bg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  color: white;
+}
+.header{
+  display: inline;
+}
+.header > div, .header > h1{
+  display: inline;
+}

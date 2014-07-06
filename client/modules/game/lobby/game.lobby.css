@@ -1,3 +1,47 @@
+/* CSS template{
+  [arrangement, position],[sizing, margin],[border/padding, internal format]
+}
+margin shorthand: top right bottom left;
+*/
+
+.lobby-rooms, .lobby-ownroom{
+  /*border: 2px solid white;*/
+  width: 50%;
+  box-shadow: 0 1px 15px rgba(255,255,255,0.5);
+  padding: 5px;
+
+  background-color: rgba(0,0,0,0.5);
+}
+.box-header{
+  position: relative;
+
+  border-bottom: 2px solid white;
+  /*box-shadow-bottom: 0 1px 5px rgba(255,255,255);*/
+
+  color: white;  
+}
+.lobby-rooms-title{
+  font-size: 1.2em;
+  line-height: 2em;
+}
+.lobby-header-buttons{
+  position: absolute;
+  right: 0;
+  top: 0;
+}
 .lobby-room{
   display: inline-block;
+
+  padding: 5px;
+}
+.lobby-room-name{
+  font-size: 1.8em;
+  line-height: 2em;
+}
+.lobby-room-player-count{
+  font-size: 1.4em;
+  line-height: 2em;
+}
+.lobby-room-join-button{
+  margin-left: 30px;
 }

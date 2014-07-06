@@ -1,0 +1,50 @@
+/* CSS template{
+  [arrangement, position],[sizing, margin],[border/padding, internal format]
+}
+margin shorthand: top right bottom left;
+*/
+
+.header-profile{
+  position: relative;
+  padding: 5px;
+}
+.header-profile > div{
+  display: inline-block;
+  vertical-align: top;
+}
+.header-profile-pic{
+  width: 70px;
+  height: 70px;
+
+  background-color: white;
+}
+.header-profile-details{
+  margin: 0 0 0 5px;
+
+  color: yellow;
+}
+.header-profile-details > h4{
+  margin: 1px;
+
+  font-size: 2.5em;
+}
+.header-profile-details > p{
+  margin: 1px;
+}
+
+.header-buttons{
+  /*hack*/
+  position: absolute;
+  right: 50px;
+  top: 20px;
+}
+.header-button-logout{
+  padding: 5px;
+
+  background-color: rgb(80,60,20);
+}
+.header-button-logout > a{
+  font-size: 2em;
+  color: white;
+  text-decoration: none;
+}

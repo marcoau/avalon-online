@@ -1,87 +1,95 @@
-<h1>Game.Room</h1>
-
-<div ng-hide='game'>
-  <h3>Room - {{room.name}}</h3>
-  <button ng-click='leaveRoom(room.name)'>Leave Room</button>
-  <p>Players: 
-    <span ng-repeat='(playerName, socket) in room.players'>{{playerName}}, </span>
-  </p>
+<div class='room-waiting' ng-hide='game'>
+  <div class='box-header'>
+    <div class='room-waiting-title'>
+      <h3>Room - {{room.name}}</h3>
+    </div>
+    <div class='room-waiting-buttons'>
+      <button ng-click='leaveRoom(room.name)'>Leave Room</button>
+    </div>
+  </div>
+  <div class='room-waiting-info'>
+    <h3 class='room-waiting-notice'>Waiting for enough players!</h3>
+    <span class='lobby-room-player-count'>{{room.count}} / 5 players:  </span>
+    <span class='lobby-room-player-names'>
+      <span ng-repeat='(playerId, player) in room.players'>{{player.name}} </span>
+    </span>
+  </div>
 </div>
 
-<div ng-show='game'>
-  <h3>Game in room {{game.room}}</h3>
-
+<div class='room-game' ng-show='game'>
   <div class='game-status'>
-    <h4>We are at mission {{game.info.missionId + 1}}</h4>
-    <p>Completed Mission(s):
-      <span ng-repeat='(missionId, mission) in game.missions'>
-        {{missionId + 1}}: {{mission.success ? 'Success' : 'Fail'}}
+    <div class='game-status-info'>
+      <span>We are at mission {{game.info.missionNo + 1}} /</span>
+      <span>Completed Mission(s):
+        <span ng-repeat='(missionId, mission) in game.missions'>
+          {{missionId + 1}}: {{mission.success ? 'Success' : 'Fail'}}
+        </span>
+         /
       </span>
-    </p>
-    <p>Rejected Team Tally: {{game.info.rejectedTeamTally}}</p>
-  </div>
-
-  <div class='game-me'>
-    <h4>You</h4>
-    <p>- {{game.me.role}} -</p>
-    <button ng-show='(gameStatus.leader && gameTemp.chosenTeam.length < gameTemp.teamSize)' ng-click='chooseTeam(user.id)'>Pick</button>
-  </div>
-
-  <div class='game-players'>
-    <div class='game-player' ng-repeat='(playerId, player) in game.players' ng-hide='playerId === user.id'>
-      <h4>{{player.name}}</h4>
-      <p>- {{player.role}} -</p>
-      <button ng-show='gameStatus.leader && gameTemp.chosenTeam.length < gameTemp.teamSize' ng-click='chooseTeam(playerId)'>Pick</button>
-      <button ng-show='gameStatus.assassin && player.role === "unknown"' ng-click='chooseKill(playerId)'>Pick</button>
-    </div>
+      <span>Rejected Team Tally: {{game.info.rejectedTeamTally}}</span>
   </div>
 
   <!-- game table -->
   <div class='table-pick-team' ng-show='gameStatus.leader'>
-    <h4>{{gameTemp.chosenTeam}}</h4>
-    <p>Choosing Team: <span ng-repeat='playerId in gameTemp.chosenTeam' ng-click='removeFromTeam(playerId)'>{{game.players[playerId].name}}, </span></p>
+    <span>Choosing team of {{gameTemp.teamSize}} players: (click on name to de-select): <span ng-repeat='playerId in gameTemp.chosenTeam' ng-click='removeFromTeam(playerId)'>{{game.players[playerId].name}}, </span> </span>
     <button ng-show='gameTemp.chosenTeam.length === gameTemp.teamSize' ng-click='submitTeam()'>Submit</button>
   </div>
 
   <div class='table-vote-team' ng-show='gameStatus.voting'>
-    <h4>{{gameTemp.teamLeader.name}} has chosen:</h4>
-    <p><span ng-repeat='playerId in gameTemp.voteTeam'>{{game.players[playerId].name}}, </span></p>
-    <div ng-show='gameTemp.vote === undefined'>
+    <span>{{gameTemp.teamLeader.name}} has chosen: </span>
+    <span><span ng-repeat='playerId in gameTemp.voteTeam'>{{game.players[playerId].name}},</span> </span>
+    <span ng-show='gameTemp.vote === undefined'>
       <button ng-click='voteApprove()'>Approve</button>
       <button ng-click='voteReject()'>Reject</button>
-    </div>
-    <div ng-hide='gameTemp.vote === undefined'>
-      <p>Your vote: {{gameTemp.vote ? 'Approve' : 'Reject'}}</p>
+    </span>
+    <span ng-hide='gameTemp.vote === undefined'>
+      <span>Your vote: {{gameTemp.vote ? 'Approve' : 'Reject'}} </span>
       <button ng-click='submitVote()'>Confirm</button>
       <button ng-click='cancelVote()'>Cancel</button>
-    </div>
+    </span>
   </div>
 
   <div class='table-join-mission' ng-show='gameStatus.mission'>
-    <h4>You are on a mission!</h4>
-    <div ng-show='gameTemp.decision === undefined'>
+    <span>You are on a mission! </span>
+    <span ng-show='gameTemp.decision === undefined'>
       <button ng-click='decideSuccess()'>Success</button>
       <button ng-click='decideFail()'>Fail</button>
-    </div>
-    <div ng-hide='gameTemp.decision === undefined'>
-      <p>Your decision: {{gameTemp.decision ? 'Success' : 'Fail'}}</p>
+    </span>
+    <span ng-hide='gameTemp.decision === undefined'>
+      <span>Your decision: {{gameTemp.decision ? 'Success' : 'Fail'}} </span>
       <button ng-click='submitDecision()'>Confirm</button>
       <button ng-click='cancelDecision()'>Cancel</button>
-    </div>
+    </span>
   </div>
 
   <div class='table-assassin' ng-show='gameTemp.assassinTarget'>
-    <h4>You are assassinating {{game.players[gameTemp.assassinTarget].name}}</h4>
+    <span>You are assassinating {{game.players[gameTemp.assassinTarget].name}} </span>
     <button ng-click='submitKill()'>Confirm</button>
     <button ng-click='cancelKill()'>Cancel</button>
   </div>
 
   <div class='table-result' ng-hide='gameTemp.goodWins === undefined'>
-    <h4>The {{gameTemp.goodWins ? 'good' : 'evil'}} prevail!</h4>
-    <h2>YOU HAVE {{gameTemp.victory ? 'WON' : 'LOST'}}!</h2>
-    <h3>Stay in room for another game?</h3>
+    <span>The {{gameTemp.goodWins ? 'good' : 'evil'}} prevail!</span>
+    <span>YOU HAVE {{gameTemp.victory ? 'WON' : 'LOST'}}!</span>
+    <br>
+    <span>Stay in room for another game?</span>
     <button ng-click='stayInRoom()'>Yes</button>
     <button ng-click='leaveRoom(room.name)'>No</button>
+  </div>
+
+  <div class='game-me' ng-class='{"game-player-good": game.me.isGood === true, "game-player-evil": game.me.isGood === false}'>
+    <h4 class='game-me-you'>You</h4>
+    <p class='game-me-role'>{{game.me.role}}</p>
+    <button ng-show='(gameStatus.leader && gameTemp.chosenTeam.length < gameTemp.teamSize)' ng-click='chooseTeam(user.id)'>Pick</button>
+  </div>
+
+  <div class='game-players'>
+    <div class='game-player' ng-repeat='(playerId, player) in game.players' ng-hide='playerId === user.id' ng-class='{"game-player-good": player.isGood === true, "game-player-evil": player.isGood === false}'>
+      <h4 class='game-player-name'>{{player.name}}</h4>
+      <p class='game-player-role'>{{player.role}}</p>
+      <button ng-show='gameStatus.leader && gameTemp.chosenTeam.length < gameTemp.teamSize' ng-click='chooseTeam(playerId)'>Pick</button>
+      <button ng-show='gameStatus.assassin && player.role === "unknown"' ng-click='chooseKill(playerId)'>Pick</button>
+    </div>
   </div>
 
 </div>

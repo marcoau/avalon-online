@@ -10,7 +10,6 @@ angular.module('app.game.lobby', [])
           //temp hack
           $rootScope.user.name = response.first_name;
           //
-          console.log($rootScope.user);
         });
 
         //once user data is obtained, enter lobby

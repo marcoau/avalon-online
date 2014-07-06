@@ -36,9 +36,19 @@ angular.module('app.game', ['app.game.header', 'app.game.lobby', 'app.game.room'
     });
 
     //GAME LISTENERS
-    $rootScope.Socket.on('S_startGame', function(){
-      console.log('S_startGame');
+    $rootScope.Socket.on('S_denyFromLobby', function(){
+      //kick out from lobby if already in
+      //to be updated
+      alert('You are logged in from another window already!');
+      $state.go('welcome');
     });
+    $rootScope.Socket.on('S_roomNameTaken', function(){
+      //to be updated
+      alert('Room name taken - please use another name!');
+      $state.go('game.lobby');
+    });
+    // $rootScope.Socket.on('S_startGame', function(){
+    // });
     $rootScope.Socket.on('S_updateGame', function(data){
       $rootScope.$apply(function(){
         $rootScope.game = data.info;
@@ -64,13 +74,11 @@ angular.module('app.game', ['app.game.header', 'app.game.lobby', 'app.game.room'
       });
     });
     $rootScope.Socket.on('S_assassinActs', function(){
-      console.log('S_assassinActs');
       $scope.$apply(function(){
         $scope.gameStatus.assassin = true;
       });
     });
     $rootScope.Socket.on('S_resolveGame', function(data){
-      console.log('S_resolveGame');
       $scope.$apply(function(){
         $scope.gameTemp.goodWins = data.goodWins;
         var iAmGood = $rootScope.game.me.isGood;

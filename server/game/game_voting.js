@@ -102,6 +102,9 @@ var votingResult = exports.votingResult = function(game){
 
 //temporary
 var teamSizes = {
+  //testing
+  3: [2,3,2,3,3],
+  //
   5: [2,3,2,3,3],
   6: [2,3,4,3,4],
   7: [2,3,3,4,4],

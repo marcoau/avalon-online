@@ -1,0 +1,74 @@
+/*GAME ROOM: WAITING */
+.room-waiting{
+  width: 50%;
+  box-shadow: 0 1px 15px rgba(255,255,255,0.5);
+  padding: 5px;
+
+  background-color: rgba(0,0,0,0.5);
+}
+.room-waiting-title{
+  font-size: 1.2em;
+  line-height: 2em;
+}
+.room-waiting-buttons{
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.room-waiting-notice{
+  text-align: center;
+
+  font-size: 3em;
+  line-height: 2em;
+}
+.room-waiting-info{
+
+}
+
+/*GAME ROOM: GAME*/
+.game-status-info{
+  font-size: 2em;
+}
+.table-pick-team > span, .table-vote-team > span, .table-join-mission > span, .table-assassin > span{
+  font-size: 2em;
+}
+.table-result > span{
+  font-size: 2.5em;
+}
+.game-me, .game-player{
+  display: inline-block;
+  width: 200px;
+  height: 150px;
+
+  margin: 10px;
+  padding: 20px;
+  box-shadow: 0 1px 30px rgba(255,255,255,0.8);
+
+  background-color: rgba(0,0,0,0.5);
+}
+.game-player-good{
+  box-shadow: 0 1px 30px rgba(100,100,255,0.8);
+}
+.game-player-evil{
+  box-shadow: 0 1px 30px rgba(255,100,100,0.8);
+}
+.game-player-you, .game-me-you{
+  font-size: 2em;
+  line-height: 1.2em;
+  color: red;
+}
+.game-player-name{
+  font-size: 2em;
+  line-height: 1.2em;
+  color: yellow;
+}
+.game-me-role, .game-player-role,{
+  font-size: 2.5em;
+  line-height: 2em;
+}
+.room-game button{
+  /*hack*/
+  margin: 0px;
+  padding: 10px;
+  font-size: 20px;
+}

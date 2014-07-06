@@ -26,17 +26,4 @@ io.on('connection', function(socket){
     }
   });
 
-  //delete players from list
-  socket.on('disconnect', function(){
-    console.log('socket disconnected: ' + socket.id);
-    var playerId = players.StoP[socket.id];
-
-    delete players.players[playerId];
-    delete players.PtoS[playerId];
-    delete players.StoP[socket.id];
-
-    console.log('players updated:');
-    console.log(players.PtoS);
-  });
- 
 });

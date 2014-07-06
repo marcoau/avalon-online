@@ -1,19 +1,21 @@
-<h3>Game.Lobby</h3>
-<button ng-click='goToRoom()'>Go To Room</button>
-<button ng-click='quitGame()'>Quit Game (Doesn't work)</button>
-<a href='/' ng-click='$event.stopPropagation()'>Quit Game</a>
-
-<input ng-model='openRoomName' placeholder='New Room Name...' \>
-<button ng-click='openRoom(openRoomName)'>Open New Room</button>
-
 <!-- Show all open rooms if user has not joined room -->
 <div class='lobby-rooms' ng-hide='user.room'>
+  <div class='box-header'>
+    <div class='lobby-rooms-title'>
+      <h3>Open rooms</h3>
+    </div>
+    <div class='lobby-header-buttons'>
+      <input ng-model='openRoomName' placeholder='New Room Name...' \>
+      <button ng-click='openRoom(openRoomName)'>Open New Room</button>
+    </div>
+  </div>
   <div class='lobby-room' ng-repeat='(roomName, room) in rooms'>
-    <h4>{{roomName}} - {{room.count}} in room!</h4>
-    <p>Players: 
-      <span ng-repeat='(playerName, socket) in room.players'>{{playerName}} </span>
-    </p>
-    <button ng-click='joinRoom(roomName)'>Join</button>
+    <span class='lobby-room-name'>{{roomName}}</span>
+    <span class='lobby-room-player-count'> - {{room.count}} / 5 players:  </span>
+    <span class='lobby-room-player-names'>
+      <span ng-repeat='(playerId, player) in room.players'>{{player.name}} </span>
+    </span>
+    <button class='lobby-room-join-button' ng-click='joinRoom(roomName)'>Join</button>
   </div>
 </div>
 
@@ -21,7 +23,7 @@
 <div class='lobby-ownroom' ng-show='user.room'>
   <h4>You have joined {{user.room}} - {{rooms[user.room].count}} in room!</h4>
   <p>Players: 
-    <span ng-repeat='(playerName, socket) in rooms[user.room].players'>{{playerName}} </span>
+    <span ng-repeat='(playerId, player) in rooms[user.room].players'>{{player.name}} </span>
   </p>
   <button ng-click='leaveRoom(user.room)'>Exit</button>
 </div>

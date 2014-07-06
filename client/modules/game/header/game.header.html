@@ -1,1 +1,17 @@
-<p>Welcome back, {{user.name}}!</p>
+<div class='header-profile'>
+  <div class='header-profile-pic'>
+  </div>
+  <div class='header-profile-details'>
+    
+    <h4>{{user.name}}</h4>
+    <!-- <p>coins: 5000 level: 12 XP: 400/500</p> -->
+  </div>
+</div>
+
+<div class='header-buttons'>
+  <div class='header-button-logout'>
+    <a href='/' ng-click='$event.stopPropagation()'>
+      <i class="fa fa-sign-out"></i> Logout
+    </a>
+  </div>
+</div>
